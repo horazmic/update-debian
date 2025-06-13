@@ -18,12 +18,14 @@ is_remote_available() {
     [ -d "$REMOTE_DIR" ] && /usr/bin/touch "$REMOTE_LOG_FILE" 2>/dev/null
 }
 
+
 # Set up logging
 if is_remote_available; then
     echo "Remote log available: Logging to both local and remote files."
     exec > >(/usr/bin/tee -a "$LOG_FILE" "$REMOTE_LOG_FILE") 2>&1
 else
     echo "Remote log unavailable: Logging to local file only."
+    echo "You can setup remote by running the setup-remote-share.sh"
     exec > >(/usr/bin/tee -a "$LOG_FILE") 2>&1
 fi
 
